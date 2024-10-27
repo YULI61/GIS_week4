@@ -1,0 +1,14 @@
+---
+title: "homework4"
+output: html_document
+date: "2024-10-27"
+---
+```{r}
+library(sf)
+library(here)
+GGIdata <- read.csv(here("data/HDR23-24_Composite_indices_complete_time_series.csv"))
+```
+```{r}
+simpleGGIdata <- GGIdata%>%
+  filt
+```

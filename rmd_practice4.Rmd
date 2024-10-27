@@ -1,0 +1,15 @@
+---
+title: "Untitled"
+output: html_document
+date: "2024-10-27"
+---
+
+```{r}
+library(here)
+library(terra)
+jan <- terra::rast( "C:\\Users\\sixan\\OneDrive - University College London\\CASA\\05 GIS\\week3\\data\\wc2.1_5m_srad\\wc2.1_5m_srad_01.tif")
+```
+
+```{r warning=FALSE}
+plot(jan)
+```
