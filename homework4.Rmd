@@ -9,6 +9,42 @@ library(here)
 GGIdata <- read.csv(here("data/HDR23-24_Composite_indices_complete_time_series.csv"))
 ```
 ```{r}
-simpleGGIdata <- GGIdata%>%
-  filt
+head(GGIdata)
 ```
+```{r}
+library(dplyr)
+library(tidyr)
+simpleGGIdata <- GGIdata%>%
+  select(country,gii_2010,gii_2019)%>%
+  drop_na()
+print(simpleGGIdata)
+```
+```{r}
+diffGGIdata <- simpleGGIdata%>%
+  mutate(inequality_difference = gii_2019 - gii_2010)%>%
+  select(country,inequality_difference)
+diffGGIdata <- diffGGIdata%>%
+  rename(COUNTRY=country)
+print(diffGGIdata)
+```
+```{r}
+world_data <- st_read(here("data/World_Countries_(Generalized)_9029012925078512962.geojson"))
+st_crs(world_data$proj4string)
+print(world_data)
+```
+
+```{r}
+mergeData <- world_data%>%
+  left_join(diffGGIdata, by = "COUNTRY")
+
+library(ggplot2)
+ggplot(data = mergeData) +
+  geom_sf(aes(fill = inequality_difference)) +
+  scale_fill_gradient2(low = "red", high = "green", mid = "yellow", midpoint = 0, na.value = "grey80") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  labs(title = "Gender Inequality Difference", fill = "GII Difference")
+
+```
+
+
